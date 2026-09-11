@@ -1,0 +1,7 @@
+node_modules/
+dist/
+data/config.json
+data/requests.json
+data/backups/
+data/ADMIN-PASSWORD.txt
+*.tmp

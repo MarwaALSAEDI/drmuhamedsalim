@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>لوحة تحكم الموقع | د. محمد سالم عبدالسلام</title>
+<link rel="icon" href="/public/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/public/tailwind.css">
+</head>
+<body class="bg-slate-100 font-sans">
+
+<!-- شاشة الدخول -->
+<div id="login" class="login-screen relative overflow-hidden" hidden>
+  <div class="pointer-events-none absolute -start-32 -top-32 h-[26rem] w-[26rem] rounded-full bg-brand-500/25 blur-3xl animate-blob"></div>
+  <div class="pointer-events-none absolute -end-24 bottom-0 h-96 w-96 rounded-full bg-navy-500/40 blur-3xl animate-blob" style="animation-delay:-8s"></div>
+  <div class="absolute inset-0 grid-pattern opacity-40"></div>
+
+  <form id="login-form" class="login-box animate-fade-up">
+    <span class="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-brand-400 to-navy-700 text-white shadow-lg shadow-brand-500/25">
+      <svg viewBox="0 0 24 24" class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M12 4v16M6 9.5h12"/><circle cx="12" cy="17" r="2.6" fill="currentColor" stroke="none" opacity=".55"/>
+      </svg>
+    </span>
+    <h1 class="mt-5">لوحة تحكم الموقع</h1>
+    <p class="mt-1 text-[.99rem] text-slate-600">عيادة د. محمد سالم عبدالسلام</p>
+
+    <label for="pw">كلمة المرور</label>
+    <input id="pw" type="password" autocomplete="current-password" required>
+    <button class="btn btn-primary" type="submit">دخول</button>
+    <p class="msg err mt-3" id="login-msg"></p>
+  </form>
+</div>
+
+<!-- التطبيق -->
+<div id="app" hidden>
+  <header class="admin-header">
+    <div class="ah-inner">
+      <div class="ah-title flex items-center gap-3">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-brand-400 to-navy-700 text-white">
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M12 4v16M6 9.5h12"/><circle cx="12" cy="17" r="2.6" fill="currentColor" stroke="none" opacity=".55"/>
+          </svg>
+        </span>
+        <span class="leading-tight">
+          <strong>لوحة تحكم الموقع</strong>
+          <span class="text-[.89rem] text-slate-600">عيادة د. محمد سالم عبدالسلام</span>
+        </span>
+      </div>
+      <div class="ah-actions">
+        <span id="dirty" class="dirty-badge" hidden>تغييرات غير محفوظة</span>
+        <a class="btn btn-ghost btn-sm" href="/" target="_blank" rel="noopener">عرض الموقع ↗</a>
+        <button class="btn btn-primary" id="save-btn">حفظ التغييرات</button>
+        <button class="btn btn-ghost btn-sm" id="logout-btn">خروج</button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </header>
+
+  <div id="pw-warning" class="warning" hidden>
+    كلمة المرور ما زالت الافتراضية. غيّرها الآن من تبويب <strong>الإعدادات</strong>.
+  </div>
+
+  <main class="admin-main" id="view"></main>
+
+  <div class="toast" id="toast" hidden></div>
+</div>
+
+<script src="/admin/admin.js"></script>
+</body>
+</html>
