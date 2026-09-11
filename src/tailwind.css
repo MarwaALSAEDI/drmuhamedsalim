@@ -158,7 +158,8 @@
   .eyebrow-dark::before { @apply bg-brand-400; }
 
   .h-section { @apply text-[1.75rem] sm:text-[2.1rem] lg:text-[2.35rem]; }
-  .h-hero    { @apply text-[2rem] sm:text-[2.6rem] lg:text-[3.1rem] leading-[1.28]; }
+  /* الموبايل: العنوان يشارك العرض مع الصورة، فيبدأ أصغر ثم يتوسّع */
+  .h-hero    { @apply text-[1.5rem] sm:text-[2.1rem] md:text-[2.5rem] lg:text-[3rem] leading-[1.3] lg:leading-[1.28]; }
 
   /* ---------- النصوص ---------- */
   .prose-ar :where(p) { @apply text-navy-500 leading-[1.95] mb-4 text-[1.03rem]; }
