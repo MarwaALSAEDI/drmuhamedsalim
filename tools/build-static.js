@@ -55,7 +55,24 @@ function withBasePath(html) {
     .replace(/url\('\/(?!\/)/g, `url('${BASE_PATH}/`);
 }
 
-const NOINDEX = process.env.NOINDEX === '1';
+/*
+  منع الفهرسة: افتراضياً يُفعَّل تلقائياً عندما يكون النشر على نطاق مؤقت
+  (vercel.app أو github.io) وليس النطاق الرسمي في content.json — حتى لا تتنافس
+  نسخة المعاينة مع الموقع الحقيقي.
+    NOINDEX=1  إجبار المنع   |   NOINDEX=0  إجبار السماح (عند الإطلاق الحقيقي)
+*/
+let NOINDEX = false;
+
+function resolveNoindex(content) {
+  if (process.env.NOINDEX === '1') return true;
+  if (process.env.NOINDEX === '0') return false;
+  const host = String(process.env.VERCEL_URL || process.env.SITE_HOST || '').toLowerCase();
+  if (BASE_PATH) return true;                 // موقع مشروع على GitHub Pages = معاينة
+  if (!host) return false;                    // بناء محلي أو نطاق مخصص
+  let canonical = '';
+  try { canonical = new URL(content.site.domain).hostname.toLowerCase().replace(/^www\./, ''); } catch (e) {}
+  return !canonical || !host.includes(canonical);
+}
 
 function write(routePath, html) {
   // "/" -> index.html   |   "/about/" -> about/index.html
@@ -93,6 +110,7 @@ function robots(c) {
 /* ---------------- التنفيذ ---------------- */
 
 const c = store.getContent();
+NOINDEX = resolveNoindex(c);
 
 rmrf(DIST);
 fs.mkdirSync(DIST, { recursive: true });
@@ -149,4 +167,7 @@ console.log('   ✓ 404.html، sitemap.xml، robots.txt، .nojekyll');
 console.log(`   ✓ ${nPublic} ملف في public/ و ${nUploads} صورة مستخدمة في uploads/` + (nSkipped ? ` (تُخُطِّيت ${nSkipped} صورة غير مستخدمة)` : ''));
 console.log(`\n  الحجم الكلي: ${Math.round(dirSize(DIST) / 1024)} كيلوبايت`);
 if (BASE_PATH) console.log(`  بادئة المسار: ${BASE_PATH}`);
-console.log('\n  تنبيه: لوحة التحكم ونموذج الحجز لا يعملان على الاستضافة الثابتة.\n');
+console.log('  الفهرسة: ' + (NOINDEX
+  ? 'ممنوعة (نسخة معاينة) — استخدم NOINDEX=0 عند الإطلاق على النطاق الرسمي'
+  : 'مسموحة'));
+console.log('\n  تنبيه: لوحة التحكم تعمل محلياً فقط، ونموذج الحجز يرسل عبر واتساب.\n');
